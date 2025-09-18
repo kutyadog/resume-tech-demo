@@ -40,7 +40,7 @@ export default function App() {
         });
 
         // Simulate a potential error (20% chance)
-        const willError = Math.random() < 0.2;
+        const willError = false; //Math.random() < 0.2;
 
         setTimeout(() => {
             if (willError) {
