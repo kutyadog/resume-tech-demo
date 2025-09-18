@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useRef } from 'react';
+import { useReactToPrint } from "react-to-print";
 
 type PreviewViewProps = {
     handleModify: () => void;
-    handleDownload: () => void;
     handleUploadNew: () => void;
     modifications: string;
     setModifications: React.Dispatch<React.SetStateAction<string>>;
@@ -21,15 +21,18 @@ const DownloadIcon = ({ className }: UploadCloudIconProps) => (
     </svg>
 );
 
-const PreviewView: React.FC<PreviewViewProps> = ({ handleModify, handleDownload, handleUploadNew, modifications, setModifications, isModifying }) => {
+const PreviewView: React.FC<PreviewViewProps> = ({ handleModify, handleUploadNew, modifications, setModifications, isModifying }) => {
     const isModifyDisabled = !modifications.trim() || isModifying;
     
+    const contentRef = useRef<HTMLDivElement>(null);
+    const reactToPrintFn = useReactToPrint({ contentRef });
+
     return (
         <div className="w-full max-w-7xl mx-auto p-8 grid grid-cols-1 lg:grid-cols-5 gap-8">
             {/* Left side: Preview */}
             <div className="lg:col-span-3">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">Your New Resume</h2>
-                <div className="relative w-full aspect-[8.5/11] bg-white rounded-lg shadow-lg border border-gray-200 p-8 overflow-hidden">
+                <div className="relative w-full aspect-[8.5/11] bg-white rounded-lg shadow-lg border border-gray-200 p-8 overflow-hidden" ref={contentRef}>
                     {/* Fake PDF Content */}
                     <div className="space-y-4 text-sm text-gray-700">
                         <div className="text-center border-b pb-4">
@@ -65,7 +68,7 @@ const PreviewView: React.FC<PreviewViewProps> = ({ handleModify, handleDownload,
                 <h2 className="text-2xl font-bold text-gray-800">Next Steps</h2>
                 <div className="space-y-4">
                     <button
-                        onClick={handleDownload}
+                        onClick={reactToPrintFn}
                         disabled={isModifying}
                         className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
                     >

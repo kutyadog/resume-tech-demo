@@ -76,11 +76,6 @@ export default function App() {
         startModification();
     };
 
-    const handleDownload = () => {
-        // This is a fake download
-        alert("Downloading your new resume!");
-    };
-
     const handleUploadNew = () => {
         // Reset to the very beginning, but keep instructions for convenience
         setFile(null);
@@ -116,7 +111,6 @@ export default function App() {
                 return (
                     <PreviewView
                         handleModify={handleModify}
-                        handleDownload={handleDownload}
                         handleUploadNew={handleUploadNew}
                         modifications={modifications}
                         setModifications={setModifications}
