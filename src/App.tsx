@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import FileDropBox from './components/DropBox';
+import HeaderBox from './components/HeaderBox';
+import RequirementBox from './components/RequirementsBox';
 
-function App() {
+const PageLayout: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex flex-col content-center text-center">
+      <HeaderBox />
+
+        <div className="flex p-4">
+          
+            <FileDropBox />
+            <RequirementBox />
+
+          
+        </div>
+
+
+     
+    
+
+      
     </div>
   );
-}
+};
 
-export default App;
+export default PageLayout;
