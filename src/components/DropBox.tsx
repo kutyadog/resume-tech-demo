@@ -61,26 +61,34 @@ const formatBytes = (bytes: number, decimals = 2) => {
 
 
 
-
     
 
 const UploadBox: React.FC<UploadViewProps> = ({ setFile, setInstructions, handleSubmit, file, instructions, uploadState, setUploadState, setView }) => {
     const [isDragging, setIsDragging] = useState(false);
-    
+    const [base64String, setBase64String] = useState<string | null>(null);
     
     
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            handleFile(e.target.files[0]);
+            handleFile(e.target.files?.[0] || null);
         }
     };
 
-    const handleFile = (selectedFile: File) => {
+    const handleFile = (selectedFile: File | null) => {
         const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
         if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+            console.log("PROCESSING RESUME");
             setUploadState('uploading');
-            // Simulate upload delay
+
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const result = reader.result as string;
+                setBase64String(result);
+                console.log('Base64 String:', result);
+            };
+
+            reader.readAsDataURL(selectedFile);
             setTimeout(() => {
                 setFile(selectedFile);
                 setUploadState('success');
@@ -93,6 +101,7 @@ const UploadBox: React.FC<UploadViewProps> = ({ setFile, setInstructions, handle
     
     const handleDeleteFile = () => {
         setFile(null);
+        setBase64String('')
         setUploadState('idle');
     };
 
