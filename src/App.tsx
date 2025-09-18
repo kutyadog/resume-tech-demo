@@ -17,11 +17,6 @@ export default function App() {
     const [processingError, setProcessingError] = useState<string | null>(null);
 
 
-    
-
-
-
-    // --- FAKE BACKEND LOGIC ---
     const startProcessing = () => {
         setView('processing');
         setProcessingError(null);
@@ -52,22 +47,16 @@ export default function App() {
             }
         }, cumulativeDelay + 500);
     };
-    
-    
 
-    // --- EVENT HANDLERS ---
-    
     const handleSubmit = () => {
         startProcessing();
     };
-    
+
     const handleStartOver = () => {
         setView('upload');
         // Keep file and instructions, but reset upload state to success to show file info
         setUploadState('success'); 
     };
-    
-    
 
     const handleUploadNew = () => {
         // Reset to the very beginning, but keep instructions for convenience
@@ -86,9 +75,10 @@ export default function App() {
                         setFile={setFile}
                         instructions={instructions}
                         setInstructions={setInstructions}
-                        handleSubmit={handleSubmit}
                         uploadState={uploadState}
                         setUploadState={setUploadState}
+                        setView={setView}
+                        handleSubmit={handleSubmit}
                     />
                 );
             case 'processing':

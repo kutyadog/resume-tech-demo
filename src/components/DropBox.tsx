@@ -1,18 +1,19 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // View 1: Upload Component
 
 type UploadState = 'idle' | 'uploading' | 'success' | 'error';
 
-type UploadViewProps = {
+interface UploadViewProps {
     setFile: React.Dispatch<React.SetStateAction<File | null>>;
     setInstructions: React.Dispatch<React.SetStateAction<string>>;
     file: File | null;
-    instructions: string;
     handleSubmit: () => void;
+    instructions: string;
     uploadState: UploadState;
     setUploadState: React.Dispatch<React.SetStateAction<UploadState>>;
-};
+    setView: React.Dispatch<React.SetStateAction<'upload' | 'processing' | 'preview'>>;
+}
 
 type UploadCloudIconProps = {
   className?: string; // The '?' makes the prop optional
@@ -57,8 +58,17 @@ const formatBytes = (bytes: number, decimals = 2) => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 
-const UploadBox: React.FC<UploadViewProps> = ({ setFile, setInstructions, file, instructions, handleSubmit, uploadState, setUploadState }) => {
+
+
+
+
+    
+
+const UploadBox: React.FC<UploadViewProps> = ({ setFile, setInstructions, handleSubmit, file, instructions, uploadState, setUploadState, setView }) => {
     const [isDragging, setIsDragging] = useState(false);
+    
+    
+    
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
