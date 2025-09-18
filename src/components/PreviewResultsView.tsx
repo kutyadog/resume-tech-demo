@@ -25,7 +25,12 @@ const PreviewView: React.FC<PreviewViewProps> = ({ handleModify, handleUploadNew
     const isModifyDisabled = !modifications.trim() || isModifying;
     
     const contentRef = useRef<HTMLDivElement>(null);
-    const reactToPrintFn = useReactToPrint({ contentRef });
+    // const reactToPrintFn = useReactToPrint({ contentRef });
+
+    const reactToPrintFn = useReactToPrint({
+       documentTitle: 'Formatted-Resume-John-Doe',
+       contentRef: contentRef,
+    })
 
     return (
         <div className="w-full max-w-7xl mx-auto p-8 grid grid-cols-1 lg:grid-cols-5 gap-8">
