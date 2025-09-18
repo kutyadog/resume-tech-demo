@@ -52,7 +52,7 @@ const PreviewView: React.FC<PreviewViewProps> = ({ handleUploadNew }) => {
 
     
     return (
-        <div className="w-full max-w-7xl mx-auto p-8 grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="w-full max-w-7xl mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-5 gap-8">
             {/* Left side: Preview */}
             <div className="lg:col-span-3">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">Your New Resume</h2>

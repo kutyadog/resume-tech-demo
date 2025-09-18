@@ -219,7 +219,6 @@ const UploadBox: React.FC<UploadViewProps> = ({ setFile, setInstructions, handle
                         rows={6}
                         value={instructions}
                         onChange={(e) => setInstructions(e.target.value)}
-                        disabled={uploadState === 'uploading'}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
                         placeholder="e.g., 'Update my job title to Senior Software Engineer at TechCorp. Emphasize my experience with React and TypeScript. Reformat to a modern, single-column layout.'"
                     />

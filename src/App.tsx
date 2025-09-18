@@ -2,9 +2,12 @@ import { useState } from 'react';
 import UploadBox from './components/DropBox';
 import ProcessingView from './components/ProcessingView';
 import PreviewView from './components/PreviewResultsView';
+import Nav from './components/Nav';
+
 type UploadState = 'idle' | 'uploading' | 'success' | 'error';
 type View = 'upload' | 'processing' | 'preview';
 type ProcessingStage = { name: string; progress: number };
+
 
 export default function App() {
     const [view, setView] = useState<View>('upload');
@@ -20,14 +23,14 @@ export default function App() {
     const startProcessing = () => {
         setView('processing');
         setProcessingError(null);
-        
+
         const stages = [
             { name: 'Processing resume...', progress: 25, delay: 1000 },
             { name: 'Analyzing content...', progress: 50, delay: 1500 },
             { name: 'Building new format...', progress: 75, delay: 2000 },
             { name: 'Finishing up...', progress: 100, delay: 1000 },
         ];
-        
+
         let cumulativeDelay = 0;
         stages.forEach(stage => {
             cumulativeDelay += stage.delay;
@@ -35,7 +38,7 @@ export default function App() {
                 setProcessingStage({ name: stage.name, progress: stage.progress });
             }, cumulativeDelay - stage.delay);
         });
-        
+
         // Simulate a potential error (20% chance)
         const willError = Math.random() < 0.2;
 
@@ -55,7 +58,7 @@ export default function App() {
     const handleStartOver = () => {
         setView('upload');
         // Keep file and instructions, but reset upload state to success to show file info
-        setUploadState('success'); 
+        setUploadState('success');
     };
 
     const handleUploadNew = () => {
@@ -83,7 +86,7 @@ export default function App() {
                 );
             case 'processing':
                 return (
-                    <ProcessingView 
+                    <ProcessingView
                         processingStage={processingStage}
                         processingError={processingError}
                         handleStartOver={handleStartOver}
@@ -101,10 +104,14 @@ export default function App() {
     };
 
     return (
-        <main className="bg-slate-100 min-h-screen flex items-center justify-center font-sans antialiased text-gray-900 p-4">
-           <div className="w-full h-full">
-              {renderView()}
-           </div>
-        </main>
+        <>
+           <Nav />
+                <main className="bg-slate-100 h-screen flex items-center justify-center font-sans antialiased text-gray-900 p-4 pt-5 md:pt-20 ">
+                    <div className="w-full h-full">
+                        {renderView()}
+                    </div>
+                </main>
+        </>
+
     );
 }
