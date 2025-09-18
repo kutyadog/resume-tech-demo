@@ -1,12 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useReactToPrint } from "react-to-print";
 
 type PreviewViewProps = {
-    handleModify: () => void;
     handleUploadNew: () => void;
-    modifications: string;
-    setModifications: React.Dispatch<React.SetStateAction<string>>;
-    isModifying: boolean;
 };
 
 type UploadCloudIconProps = {
@@ -21,7 +17,24 @@ const DownloadIcon = ({ className }: UploadCloudIconProps) => (
     </svg>
 );
 
-const PreviewView: React.FC<PreviewViewProps> = ({ handleModify, handleUploadNew, modifications, setModifications, isModifying }) => {
+const PreviewView: React.FC<PreviewViewProps> = ({ handleUploadNew }) => {
+    const [modifications, setModifications] = useState('');
+    const [isModifying, setIsModifying] = useState(false);
+
+    const startModification = () => {
+        setIsModifying(true);
+        // Simulate modification delay
+        setTimeout(() => {
+            setIsModifying(false);
+            // setModifications(''); // Clear input after modification
+            // Here you would typically update the preview content
+        }, 2500);
+    };
+
+    const handleModify = () => {
+        startModification();
+    };
+
     const isModifyDisabled = !modifications.trim() || isModifying;
     
     const contentRef = useRef<HTMLDivElement>(null);
@@ -32,6 +45,12 @@ const PreviewView: React.FC<PreviewViewProps> = ({ handleModify, handleUploadNew
        contentRef: contentRef,
     })
 
+    const startOver = () => {
+        setModifications('');
+        handleUploadNew();
+    };
+
+    
     return (
         <div className="w-full max-w-7xl mx-auto p-8 grid grid-cols-1 lg:grid-cols-5 gap-8">
             {/* Left side: Preview */}
@@ -81,7 +100,7 @@ const PreviewView: React.FC<PreviewViewProps> = ({ handleModify, handleUploadNew
                         Download PDF
                     </button>
                      <button
-                        onClick={handleUploadNew}
+                        onClick={startOver}
                         disabled={isModifying}
                         className="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm text-lg font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >

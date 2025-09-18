@@ -11,12 +11,15 @@ export default function App() {
     const [file, setFile] = useState<File | null>(null);
     const [uploadState, setUploadState] = useState<UploadState>('idle');
     const [instructions, setInstructions] = useState('');
-    const [modifications, setModifications] = useState('');
-    const [isModifying, setIsModifying] = useState(false);
 
     // State for the processing view
     const [processingStage, setProcessingStage] = useState<ProcessingStage>({ name: 'Initializing...', progress: 0 });
     const [processingError, setProcessingError] = useState<string | null>(null);
+
+
+    
+
+
 
     // --- FAKE BACKEND LOGIC ---
     const startProcessing = () => {
@@ -50,15 +53,7 @@ export default function App() {
         }, cumulativeDelay + 500);
     };
     
-    const startModification = () => {
-        setIsModifying(true);
-        // Simulate modification delay
-        setTimeout(() => {
-            setIsModifying(false);
-            setModifications(''); // Clear input after modification
-            // Here you would typically update the preview content
-        }, 2500);
-    };
+    
 
     // --- EVENT HANDLERS ---
     
@@ -72,15 +67,12 @@ export default function App() {
         setUploadState('success'); 
     };
     
-    const handleModify = () => {
-        startModification();
-    };
+    
 
     const handleUploadNew = () => {
         // Reset to the very beginning, but keep instructions for convenience
         setFile(null);
         setUploadState('idle');
-        setModifications('');
         setView('upload');
     };
 
@@ -110,11 +102,7 @@ export default function App() {
             case 'preview':
                 return (
                     <PreviewView
-                        handleModify={handleModify}
                         handleUploadNew={handleUploadNew}
-                        modifications={modifications}
-                        setModifications={setModifications}
-                        isModifying={isModifying}
                     />
                 );
             default:
